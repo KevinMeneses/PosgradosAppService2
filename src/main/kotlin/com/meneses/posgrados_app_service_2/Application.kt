@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
 fun Application.module() {
     configureMonitoring()
     configureSerialization()
-    configureSecurity()
     configureDI()
+    configureSecurity()
     configureRouting()
 }

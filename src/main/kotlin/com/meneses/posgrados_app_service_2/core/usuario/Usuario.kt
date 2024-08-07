@@ -14,4 +14,8 @@ data class Usuario(
     val semestre: Int
 ) {
     fun toJson(): String = Json.encodeToString(this)
+
+    companion object {
+        fun fromJson(json: String) = Json.decodeFromString<Usuario>(json)
+    }
 }

@@ -9,7 +9,7 @@ fun Application.configureDI() {
     install(Koin) {
         slf4jLogger()
         modules(
-            applicationModule,
+            applicationModule(),
             calificacionModule,
             docenteModule,
             escuelaModule,
@@ -17,7 +17,8 @@ fun Application.configureDI() {
             moduloModule,
             posgradoModule,
             usuarioModule,
-            dashboardModule
+            dashboardModule,
+            authenticationModule
         )
     }
 }

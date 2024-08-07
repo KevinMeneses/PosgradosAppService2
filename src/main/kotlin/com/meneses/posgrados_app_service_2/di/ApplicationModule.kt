@@ -1,5 +1,7 @@
 package com.meneses.posgrados_app_service_2.di
 
+import com.meneses.posgrados_app_service_2.aggregate.authentication.AuthenticationService
+import com.meneses.posgrados_app_service_2.aggregate.authentication.JwtService
 import com.meneses.posgrados_app_service_2.aggregate.dashboard.DashboardService
 import com.meneses.posgrados_app_service_2.core.calificacion.CalificacionRepository
 import com.meneses.posgrados_app_service_2.core.docente.DocenteRepository
@@ -15,9 +17,11 @@ import io.ktor.server.application.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 
-val Application.applicationModule get() = module {
+fun Application.applicationModule() = module {
+    single { this@applicationModule }
     single { connectToPostgres(false) }
     single { Dispatchers.IO }
+    single { JwtService(get(), get()) }
 }
 
 val calificacionModule get() = module {
@@ -52,4 +56,8 @@ val usuarioModule = module {
 
 val dashboardModule = module {
     single { DashboardService(get(), get(), get(), get(), get(), get()) }
+}
+
+val authenticationModule = module {
+    single { AuthenticationService(get(), get()) }
 }
