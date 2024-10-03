@@ -7,11 +7,19 @@ import com.meneses.posgrados_app_service_2.core.modulo.Modulo
 import com.meneses.posgrados_app_service_2.core.posgrado.Posgrado
 import kotlinx.serialization.Serializable
 
+typealias Semester = Int
+
 @Serializable
 data class Dashboard(
     val posgrado: Posgrado,
-    val modulos: List<Modulo>,
-    val docentes: List<Docente>,
-    val horarios: List<Horario>,
-    val calificaciones: List<Calificacion>
-)
+    val section: Map<Semester, Section>,
+    val currentSemestre: Int
+) {
+    @Serializable
+    data class Section(
+        val modulos: List<Modulo>,
+        val docentes: List<Docente>,
+        val horarios: List<Horario>,
+        val calificaciones: List<Calificacion>,
+    )
+}

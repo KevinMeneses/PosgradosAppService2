@@ -9,7 +9,7 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Routing.calificacionController() {
-    val calificacionRepository: CalificacionRepository by inject()
+    val calificacionService: CalificacionService by inject()
 
     authenticate("auth-jwt") {
         route("calificacion") {
@@ -18,16 +18,11 @@ fun Routing.calificacionController() {
                 val idPosgrado = call.parameters["id_posgrado"]?.toIntOrNull()
                 val semester = call.parameters["semestre"]?.toIntOrNull()
 
-                if (idUsuario == null || idPosgrado == null || semester == null) {
-                    throw Exception("Invalid parameters")
-                }
-
-                val calificaciones = calificacionRepository
-                    .getAllByPosgradoSemesterAndUsuario(
-                        idUsuario = idUsuario,
-                        idPosgrado = idPosgrado,
-                        semester = semester
-                    )
+                val calificaciones = calificacionService.getMany(
+                    idUsuario = idUsuario,
+                    idPosgrado = idPosgrado,
+                    semester = semester
+                )
 
                 call.respond(calificaciones)
             }
@@ -35,7 +30,7 @@ fun Routing.calificacionController() {
 
             put("/upsert") {
                 val calificacion = call.receive<CalificacionDTO>()
-                calificacionRepository.upsertCalificacion(
+                calificacionService.upsertCalificacion(
                     calificacion = calificacion.calificacion,
                     idUsuario = calificacion.idUsuario,
                     idDocente = calificacion.idDocente

@@ -6,13 +6,13 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Routing.horarioController() {
-    val horarioRepository: HorarioRepository by inject()
+    val horarioService: HorarioService by inject()
 
     route("/horario") {
         get("/all") {
-            val idPosgrado = call.parameters["id_posgrado"]?.toIntOrNull() ?: throw IllegalArgumentException("Invalid ID")
-            val semester = call.parameters["semestre"]?.toIntOrNull() ?: throw IllegalArgumentException("Invalid ID")
-            val horarios = horarioRepository.getAllByPosgradoAndSemester(idPosgrado, semester)
+            val idPosgrado = call.parameters["id_posgrado"]?.toIntOrNull()
+            val semester = call.parameters["semestre"]?.toIntOrNull()
+            val horarios = horarioService.getMany(idPosgrado, semester)
             call.respond(horarios)
         }
     }

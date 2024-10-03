@@ -4,10 +4,12 @@ import com.meneses.posgrados_app_service_2.aggregate.authentication.Authenticati
 import com.meneses.posgrados_app_service_2.aggregate.authentication.JwtService
 import com.meneses.posgrados_app_service_2.aggregate.dashboard.DashboardService
 import com.meneses.posgrados_app_service_2.core.calificacion.CalificacionRepository
+import com.meneses.posgrados_app_service_2.core.calificacion.CalificacionService
 import com.meneses.posgrados_app_service_2.core.docente.DocenteRepository
 import com.meneses.posgrados_app_service_2.core.docente.DocenteService
 import com.meneses.posgrados_app_service_2.core.escuela.EscuelaRepository
 import com.meneses.posgrados_app_service_2.core.horario.HorarioRepository
+import com.meneses.posgrados_app_service_2.core.horario.HorarioService
 import com.meneses.posgrados_app_service_2.core.modulo.ModuloRepository
 import com.meneses.posgrados_app_service_2.core.modulo.ModuloService
 import com.meneses.posgrados_app_service_2.core.posgrado.PosgradoRepository
@@ -26,6 +28,7 @@ fun Application.applicationModule() = module {
 
 val calificacionModule get() = module {
     single { CalificacionRepository(get(), get()) }
+    single { CalificacionService(get()) }
 }
 
 val docenteModule = module {
@@ -39,6 +42,7 @@ val escuelaModule = module {
 
 val horarioModule = module {
     single { HorarioRepository(get(), get()) }
+    single { HorarioService(get()) }
 }
 
 val moduloModule = module {
@@ -55,7 +59,7 @@ val usuarioModule = module {
 }
 
 val dashboardModule = module {
-    single { DashboardService(get(), get(), get(), get(), get(), get()) }
+    single { DashboardService(get(), get(), get(), get(), get(), get(), get()) }
 }
 
 val authenticationModule = module {

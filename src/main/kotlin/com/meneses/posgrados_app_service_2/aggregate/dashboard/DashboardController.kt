@@ -14,14 +14,17 @@ fun Routing.dashboardController() {
             get {
                 val idUsuario = call.parameters["id_usuario"]
                 val idPosgrado = call.parameters["id_posgrado"]?.toIntOrNull()
-                val semester = call.parameters["semestre"]?.toIntOrNull()
 
-                if (idUsuario == null || idPosgrado == null || semester == null) {
+                if (idUsuario == null || idPosgrado == null) {
                     throw Exception("Invalid parameters")
                 }
 
-                val dashboard = dashboardService.getDashboard(idUsuario, idPosgrado, semester)
-                call.respond(dashboard)
+                try {
+                    val dashboard = dashboardService.getDashboard(idUsuario, idPosgrado)
+                    call.respond(dashboard)
+                } catch (e: Exception) {
+                    call.respond(e.stackTraceToString())
+                }
             }
         }
     }

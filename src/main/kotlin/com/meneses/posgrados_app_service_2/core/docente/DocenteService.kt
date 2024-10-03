@@ -8,12 +8,16 @@ class DocenteService(
         return docenteRepository.getById(id)
     }
 
-    suspend fun getMany(idPosgrado: Int?, semester: Int?): List<Docente> {
+    suspend fun getMany(idPosgrado: Int?, semester: Int? = null): List<Docente> {
         idPosgrado ?: throw IllegalArgumentException("Invalid ID")
         return if (semester == null) {
             docenteRepository.getAllByPosgrado(idPosgrado)
         } else {
             docenteRepository.getAllByPosgradoAndSemester(idPosgrado, semester)
         }
+    }
+
+    suspend fun getByModulo(idModulo: Int): Docente {
+        return docenteRepository.getByModulo(idModulo)
     }
 }
